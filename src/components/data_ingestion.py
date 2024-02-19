@@ -6,6 +6,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
+from src.components.data_transformation import DataTransformation
+from src.components.data_transformation import DataTransformatonConfig
 #creating this class to store the splited data 
 
 @dataclass
@@ -39,12 +41,19 @@ class DataIngestion:
             return(
                 self.ingestion_config.train_data_path,
                 self.ingestion_config.test_data_path,
-                self.ingestion_config.raw_data_path   
+                   
             )
         except Exception as e:
             raise CustomException(e, sys)
 
 if __name__ == "__main__":
+    logging.info("ingestion entry form here")
     obj = DataIngestion()
-    obj.initiate_data_ingestion()
+    logging.info("ingestion exit form here")
+    
+    #transforming data form here
+    train_data,test_data=obj.initiate_data_ingestion()
+    logging.info("transforming data form here")
+    data_transformation = DataTransformation()
+    train_arr,test_arr,_=data_transformation.initiate_data_transformation(train_data,test_data)
 
